@@ -10,6 +10,7 @@ import seaborn as sns
 
 
 # Step 1: Load the data.
+# Download the Dataset from 'Wine Quality Dataset' Kaggle and put it in dataset directory.
 data_df = pd.read_csv('dataset/WineQT.csv', sep=',')
 
 # Step 2: Create feature and target dataset
