@@ -22,11 +22,13 @@ features = []
 labels = []
 
 # Loop through each genre folder and load audio files.
+# ***Corrupted File Issue: During the process, we encountered an issue with the file /jazz/jazz.00054.wav,
+# which was corrupted and had to be removed from the dataset before training.
 for genre in os.listdir(dataset_path):
     genre_path = os.path.join(dataset_path, genre)
-    count = 1
     for file in os.listdir(genre_path):
         file_path = os.path.join(genre_path, file)
+        print(file_path)
         # Load the audio file and extract features
         y, sr = librosa.load(file_path, duration=30) # Load a 30 sec audio clip
         # Sample output:
@@ -42,10 +44,6 @@ for genre in os.listdir(dataset_path):
         # Append to features labels list
         features.append(np.hstack([mfcc, chroma, contrast, zcr]))
         labels.append(genre)
-
-        count = count + 1
-        if count > 10:
-            break
 
 # Convert features and labels to dataframe
 X = pd.DataFrame(features)
@@ -75,3 +73,36 @@ plt.xlabel('Predicted Values')
 plt.ylabel('Actual Values')
 plt.title('Confusion Matrix for Music Genre Classification')
 plt.show()
+
+# Model Performance:
+
+# Accuracy Score:
+#  0.635
+# Confusion Matrix:
+#  [[17  0  1  1  0  1  0  0  1  1]
+#  [ 0 26  1  0  1  0  0  0  0  0]
+#  [ 2  0 13  2  0  0  0  1  3  1]
+#  [ 2  0  1 12  3  1  0  0  0  5]
+#  [ 0  0  0  2 11  0  1  1  2  3]
+#  [ 2  3  0  1  0 10  0  0  3  0]
+#  [ 1  0  0  0  0  0 11  0  0  0]
+#  [ 0  0  2  1  1  2  0 14  1  0]
+#  [ 1  0  2  0  4  0  0  1  7  0]
+#  [ 4  0  2  5  0  0  0  0  0  6]]
+# Classification report:
+#                precision    recall  f1-score   support
+#
+#        blues       0.59      0.77      0.67        22
+#    classical       0.90      0.93      0.91        28
+#      country       0.59      0.59      0.59        22
+#        disco       0.50      0.50      0.50        24
+#       hiphop       0.55      0.55      0.55        20
+#         jazz       0.71      0.53      0.61        19
+#        metal       0.92      0.92      0.92        12
+#          pop       0.82      0.67      0.74        21
+#       reggae       0.41      0.47      0.44        15
+#         rock       0.38      0.35      0.36        17
+#
+#     accuracy                           0.64       200
+#    macro avg       0.64      0.63      0.63       200
+# weighted avg       0.64      0.64      0.63       200
