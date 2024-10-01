@@ -1,0 +1,25 @@
+# Install Git (if not installed)
+git --version
+
+# Install Heroku CLI (if not installed)
+heroku --version
+
+# Login to Heroku
+heroku login
+
+# Initialize Git repository
+git init
+git add .
+git commit -m "Initial commit"
+
+# Create a new Heroku app
+heroku create your-app-name
+
+# Push to Heroku
+git push heroku master
+
+# Scale the web dyno
+heroku ps:scale web=1
+
+# Open the deployed app
+heroku open
